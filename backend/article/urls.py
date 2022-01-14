@@ -1,5 +1,7 @@
-from django.urls import path
+from rest_framework import routers
 
-urlpatterns = [
+from . import views
 
-]
+router = routers.SimpleRouter()
+router.register(r'articles', views.ArticleViewSet)
+urlpatterns = router.urls
