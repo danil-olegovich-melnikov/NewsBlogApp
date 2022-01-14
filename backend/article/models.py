@@ -7,6 +7,7 @@ sections = (
     ('review', 'Обзор'),
 )
 
+
 # Create your models here.
 class Article(models.Model):
     section = models.CharField("Раздел", choices=sections, max_length=10)
