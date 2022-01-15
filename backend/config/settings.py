@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
 # Application definition
 
 INSTALLED_APPS = [
+    'auth_user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,6 +131,9 @@ MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 12
 }
