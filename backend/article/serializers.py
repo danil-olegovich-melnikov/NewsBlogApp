@@ -12,8 +12,9 @@ class ArticleSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
         request = self.context.get("request")
-
-        if not (request and hasattr(request, "user")):
+        print(request.user)
+        print(request.headers)
+        if not ((request and hasattr(request, "user")) and not request.user.is_anonymous):
             raise serializers.ValidationError("Authentication error")
 
         user = request.user
