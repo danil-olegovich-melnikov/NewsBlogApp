@@ -5,6 +5,9 @@ from . import seriliazers
 
 
 class RegisterView(generics.CreateAPIView):
+    """
+        Takes a set of credentials to register the user
+    """
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = seriliazers.RegisterSerializer
