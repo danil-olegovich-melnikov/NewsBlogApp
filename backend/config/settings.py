@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'article',
-    'rest_framework',
 
+    'rest_framework',
     'django_seed',
     'rest_framework_swagger',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
@@ -144,6 +146,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 12,
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 

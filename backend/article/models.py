@@ -13,7 +13,7 @@ class Article(models.Model):
     section = models.CharField("Раздел", choices=sections, max_length=10)
     title = models.CharField("Заголовок", max_length=100)
     description = models.CharField("Описание", max_length=10000)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор', to_field='username')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     cover = models.ImageField("Обложка", upload_to='articles/cover/', blank=True)
