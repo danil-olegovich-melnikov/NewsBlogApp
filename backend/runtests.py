@@ -6,7 +6,7 @@ import django
 
 django.setup()
 
-from auth_user.models import User, UserProfile
+from auth_user.models import User, UserProfile, UserEmailVerification
 from article.models import Article
 
 from django_seed import Seed
@@ -17,6 +17,7 @@ seeder = Seed.seeder()
 
 def populate():
     seeder.add_entity(User, 50)
+    seeder.add_entity(UserEmailVerification, 50)
 
     try:
         seeder.add_entity(UserProfile, 50, {

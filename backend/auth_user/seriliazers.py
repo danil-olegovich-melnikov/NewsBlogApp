@@ -1,8 +1,11 @@
-from rest_framework import serializers
+import random
 
 from django.contrib.auth.models import User
-from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+
+from . import models
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -32,12 +35,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-        )
-
+        user = User.objects.create(username=validated_data['username'], email=validated_data['email'])
         user.set_password(validated_data['password'])
+        user.is_active = False
         user.save()
 
+        models.UserEmailVerification(user=user).save()
+
         return user
+
+
+class UserEmailVerificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserEmailVerification
+        fields = '__all__'

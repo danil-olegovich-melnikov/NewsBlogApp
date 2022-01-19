@@ -19,3 +19,6 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ['title']
     readonly_fields = ['cover_image']
 
+
+
+
