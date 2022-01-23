@@ -22,6 +22,6 @@ class UserEmailVerification(models.Model):
 
     def save(self, *args, **kwargs):
         self.code = random.randint(100000, 999999)
-        # service.send(self.user.email, self.code)
+        print("HERE")
         tasks.send_register_code.delay(self.user.email, self.code)
         super(UserEmailVerification, self).save(*args, **kwargs)
