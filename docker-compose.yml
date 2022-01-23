@@ -1,12 +1,55 @@
 version: "3.7"
 
 services:
+  redis:
+    image: redis
+    command: ["redis-server"]
+    ports:
+      - "6379:6379"
+
   backend:
     container_name: BlogAppBackend
     build:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app/backend
+      - ./backend:/app/backend/
     ports:
     - "8000:8000"
+
+  nginx:
+    build:
+      context: ./backend/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - static_volume:/app/backend/static
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  static_volume:
+  media_volume:
+
+
+#  celery-worker:
+#    build:
+#      context: ./Backend/celery
+#      dockerfile: Dockerfile
+#    volumes:
+#      - .:/app/backend/
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - backend
+#      - redis
+
+#  celery-beat:
+#    build: .
+#    command: ["celery", "-A", "config", "beat", "-l", "info"]
+#    volumes:
+#      - .:/code
+#    depends_on:
+#      - redis
+

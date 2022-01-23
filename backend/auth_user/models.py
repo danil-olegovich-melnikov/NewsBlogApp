@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.conf import settings
-from django.core.mail import send_mail
+# from . import service
+from . import tasks
 import random
 
 # Create your models here.
@@ -22,10 +22,6 @@ class UserEmailVerification(models.Model):
 
     def save(self, *args, **kwargs):
         self.code = random.randint(100000, 999999)
-        send_mail(
-            subject='Subject here',
-            message=f'Verification code: {self.code}',
-            recipient_list=['danil369.ru@mail.ru'],
-            from_email=settings.EMAIL_HOST_PASSWORD,
-        )
+        # service.send(self.user.email, self.code)
+        tasks.send_register_code.delay(self.user.email, self.code)
         super(UserEmailVerification, self).save(*args, **kwargs)
