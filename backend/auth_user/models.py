@@ -1,8 +1,11 @@
-from django.db import models
+import random
+
 from django.contrib.auth.models import User
+from django.db import models
+
 # from . import service
 from . import tasks
-import random
+
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -23,5 +26,5 @@ class UserEmailVerification(models.Model):
     def save(self, *args, **kwargs):
         self.code = random.randint(100000, 999999)
         print("HERE")
-        tasks.send_register_code.delay(self.user.email, self.code)
+        tasks.send_register_code.apply_async(args=[self.user.email, self.code], countdown=10)
         super(UserEmailVerification, self).save(*args, **kwargs)

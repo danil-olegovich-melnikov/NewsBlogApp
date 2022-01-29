@@ -1,11 +1,12 @@
 version: "3.7"
 
 services:
-  redis:
-    image: redis
-    command: ["redis-server"]
-    ports:
-      - "6379:6379"
+#  redis:
+#    container_name: BlogAppRedis
+#    image: redis
+#    command: ["redis-server"]
+#    ports:
+#      - "6379:6379"
 
   backend:
     container_name: BlogAppBackend
@@ -13,20 +14,60 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app/backend/
+      - ./backend:/app/backend
     ports:
     - "8000:8000"
 
-  nginx:
-    build:
-      context: ./backend/nginx
-      dockerfile: Dockerfile
-    volumes:
-      - static_volume:/app/backend/static
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
+#  nginx:
+#    container_name: BlogAppNginx
+#    build:
+#      context: ./backend/nginx/
+#      dockerfile: Dockerfile
+#    volumes:
+#      - static_volume:/app/backend/static
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - backend
+
+#  celery-worker:
+#    build:
+#      context: ./backend/
+#    command: ["celery", "-A", "config", "worker", "-l", "info"]
+#    volumes:
+#      - .:/app/backend/
+#    depends_on:
+#      - backend
+#      - redis
+#
+#  celery-beat:
+#    command: ["celery", "-A", "config", "beat", "-l", "info"]
+#    build:
+#      context: ./backend/
+#    volumes:
+#      - .:/app/backend/
+#    depends_on:
+#      - backend
+#      - redis
+#      - celery-worker
+#
+#  celery-flower:
+#    image: mher/flower
+#    build:
+#      context: ./backend/
+#    command: [ "celery", "flower", "-A", "config"]
+#    ports:
+#      - "5555:5555"
+#    environment:
+#      - CELERY_BROKER_URL=redis://redis:6379/0
+#      - CELERY_BACKEND_URL=redis://redis:6379/0
+#    depends_on:
+#      - backend
+#      - redis
+#      - celery-worker
+#      - celery-beat
+
+
 
 volumes:
   static_volume:
